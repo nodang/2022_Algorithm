@@ -4,5 +4,6 @@ Debug/
 
 *.sln
 *.vcxproj
+*.vcxproj.*
 
 github-recovery-codes.txt
