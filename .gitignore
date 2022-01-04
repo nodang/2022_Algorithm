@@ -1,1 +1,6 @@
 수업자료/
+.vs/
+Debug/
+
+*.sln
+*.vcxproj
