@@ -1,0 +1,29 @@
+MSA 와 SW 엔지니어링의 미래
+
+
+software architecture
+
+모놀리딕 아키텍쳐 : 하나의 while문으로 모든 내용을 처리
+user interface
+business layer 
+data interface
+-> DB
+
+MSA : 여러 개의 while 문으로 각자의 내용을 처리
+Microservice 간 통신 또는 각자의 서비스가 DB에 접근할 수 있음
+
+서비스 & 커뮤니케이션
+Hypervisor
+하드웨어 가상화 기법
+
+Container
+운영체제 가상화 기법
+->Docker!
+
+MQTT 메세지 큐 이용 데이터 전송
+TCP/IP
+ZMQ(ZeroMQ) (zero == 브로커 없음)
+
+Docker
+ZMQ
+Docker-Compose

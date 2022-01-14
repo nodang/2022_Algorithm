@@ -40,21 +40,21 @@ int main(void)
 	struct Node *head = malloc(sizeof(struct Node));
 	head->Next = NULL;
 
-	struct Node *node1 = init(head, 10);
-	struct Node *node2 = init(node1, 20);
-	struct Node *node3 = init(node2, 30);
-	struct Node *node4 = init(node3, 40);
-	struct Node *node5 = init(node4, 50);
+	struct Node *node1 = init(head, 1);
+	struct Node *node2 = init(node1, 2);
+	struct Node *node3 = init(node2, 3);
+	struct Node *node4 = init(node3, 4);
+	struct Node *node5 = init(node4, 5);
 
-	struct Node *node6 = init(node2, 60);
-	struct Node *node7 = init(node5, 70);
+	struct Node *node6 = init(node2, 6);
+	struct Node *node7 = init(node5, 7);
 
 	node_exit(head);
 
 	struct Node *curr = head->Next;
 	while (curr != NULL)
 	{
-		printf("%d\n", curr->Data);
+		printf("%d ", curr->Data);
 		curr = curr->Next;
 	}
 
