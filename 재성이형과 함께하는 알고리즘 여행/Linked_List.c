@@ -1,71 +1,79 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Node	
+typedef struct Node
 {
-	struct Node *Next;
-	int Data;
-};
+	struct Node* p_next;
+	int data;
+}st_node;
 
-struct Node *init(struct Node *front, int data)
+int n_init(st_node* front_node, int data)
 {
-	struct Node *node = malloc(sizeof(struct Node));
-	node->Data = data;
+	if (front_node == NULL)	return -1;
 
-	if (front->Next != NULL)
-	{
-		struct Node *Rear = front->Next;
-		front->Next = node;
-		node->Next = Rear;
-	}
-	else
-	{
-		front->Next = node;
-		node->Next = NULL;
-	}
+	st_node* node = malloc(sizeof(st_node));
+	if (node == NULL)		return -1;
 
-	return node;
+	node->data = data;
+	node->p_next = NULL;
+	front_node->p_next = node;
+
+	return 0;
 }
 
-void node_exit(struct Node *front)
+int n_exit(st_node* head_node)
 {
-	struct Node *curr = front->Next;
+	if (head_node == NULL)		return -1;
 
-	front->Next = curr->Next;
-	curr->Next = NULL;
+	st_node* curr = head_node;
+	while (curr->p_next->p_next != NULL)		curr = curr->p_next;
+	
+	st_node* rm_node = curr->p_next;
+
+	curr->p_next = rm_node->p_next;
+	rm_node->p_next = NULL;
+
+	free(rm_node);
+
+	return 0;
+}
+
+int n_print(st_node* head_node)
+{
+	if (head_node == NULL)		return - 1;
+
+	st_node* curr = head_node;
+	while (curr != NULL)
+	{
+		printf("add_ress : %p	data : %10d		next : %p\n", curr, curr->data, curr->p_next);
+		curr = curr->p_next;
+	}
+
+	return 0;
 }
 
 int main(void)
 {
-	struct Node *head = malloc(sizeof(struct Node));
-	head->Next = NULL;
+	st_node* p_head = NULL;
+	p_head = malloc(sizeof(st_node));
+	if (p_head == NULL)	return -1;
 
-	struct Node *node1 = init(head, 1);
-	struct Node *node2 = init(node1, 2);
-	struct Node *node3 = init(node2, 3);
-	struct Node *node4 = init(node3, 4);
-	struct Node *node5 = init(node4, 5);
-
-	struct Node *node6 = init(node2, 6);
-	struct Node *node7 = init(node5, 7);
-
-	node_exit(head);
-
-	struct Node *curr = head->Next;
-	while (curr != NULL)
+	st_node *p_curr = p_head;
+	for (int i = 1; i <= 10; i++)
 	{
-		printf("%d ", curr->Data);
-		curr = curr->Next;
+		n_init(p_curr, i);
+		p_curr = p_curr->p_next;
 	}
 
-	free(node7);
-	free(node6);
-	free(node5);
-	free(node4);
-	free(node3);
-	free(node2);
-	free(node1);
-	free(head);
+	n_print(p_head);
+	for (int i = 1; i <= 10; i++)
+	{
+		n_exit(p_head);
+	}
+
+	n_print(p_head);
+
+	free(p_head);
 
 	return 0;
 }
