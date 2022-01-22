@@ -25,6 +25,8 @@ st_node* init_node()
 	if (node == NULL)		
 		return print_err_memory("init_node", "node_malloc");
 
+	node->p_next = NULL;
+
 	return node;
 }
 
@@ -47,23 +49,31 @@ int add_node(st_node* front_node, int data)
 	if (node == NULL)	return -1;
 
 	if (-change_data(node, data))	return -1;
-	node->p_next = NULL;
-	front_node->p_next = node;
+
+	if (front_node->p_next == NULL)
+	{
+		node->p_next = NULL;
+		front_node->p_next = node;
+	}
+	else
+	{
+		node->p_next = front_node->p_next;
+		front_node->p_next = node;
+	}
 
 	return 0;
 }
 
-int exit_node(st_node* head_node)
+int exit_node(st_node* front_node)
 {
-	if (head_node == NULL)				
-		return print_err_address("exit_node", "head node");
-
-	st_node* curr = head_node;
-	while (curr->p_next->p_next != NULL)	curr = curr->p_next;
+	if (front_node == NULL)
+		return print_err_address("exit_node", "front_node");
 	
-	st_node* rm_node = curr->p_next;
+	st_node* rm_node = front_node->p_next;
+	if (rm_node == NULL)
+		return print_err_address("exit_node", "rm_node");
 
-	curr->p_next = rm_node->p_next;
+	front_node->p_next = rm_node->p_next;
 	rm_node->p_next = NULL;
 
 	free(rm_node);
@@ -71,7 +81,7 @@ int exit_node(st_node* head_node)
 	return 0;
 }
 
-int print_node(st_node* head_node)
+static int print_node(st_node* head_node)
 {
 	if (head_node == NULL)		
 		return print_err_address("printf_node", "head node");
@@ -90,8 +100,7 @@ int print_node(st_node* head_node)
 int main(void)
 {
 	st_node* p_head = NULL;
-	p_head = malloc(sizeof(st_node));
-	if (p_head == NULL)	return -1;
+	p_head = init_node();
 
 	st_node *p_curr = p_head;
 	for (int i = 1; i <= 10; i++)
@@ -101,8 +110,11 @@ int main(void)
 	}
 
 	if (-print_node(p_head))			return 0;
+
 	for (int i = 1; i <= 10; i++)
+	{
 		if (-exit_node(p_head))			return 0;
+	}
 
 	if (-print_node(p_head))			return 0;
 
