@@ -2,14 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "linked_list.h"
+
 #define PRINT_ERR_ADDRESS(FUNC, NAME)		printf("Err[%s] : %s's address is NULL\n", FUNC, NAME)
 #define PRINT_ERR_MEMORY(NAME)				printf("Err[%s] : Memory isn't enough\n", NAME)
-
-typedef struct Node
-{
-	struct Node* p_next;
-	int data;
-}st_node;
 
 st_node* init_node(void)
 {
@@ -62,8 +58,6 @@ int add_node(st_node* front_node, const int data)
 
 int delete_node(st_node** front_node)
 {
-	int err = 0;
-
 	if (*front_node == NULL || (*front_node)->p_next == NULL)
 	{
 		PRINT_ERR_ADDRESS("exit_node", "front_node");
@@ -75,7 +69,7 @@ int delete_node(st_node** front_node)
 	(*front_node)->p_next = rm_node->p_next;
 	rm_node->p_next = NULL;
 
-	err = exit_node(&rm_node);
+	int err = exit_node(&rm_node);
 	if (err == -1)
 		return -1;
 
@@ -101,7 +95,7 @@ static int _print_node(st_node* head_node)
 	return 0;
 }
 
-int main(void)
+int check_linked_list(void)
 {
 	int err = 0;
 
