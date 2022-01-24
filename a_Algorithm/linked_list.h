@@ -1,0 +1,16 @@
+#ifndef LINKED_LIST_H
+#define LINKED_LIST_H
+
+typedef struct Node
+{
+	struct Node* p_next;
+	int data;
+}st_node;
+
+st_node* init_node(void);
+int exit_node(st_node** rm_node);
+int add_node(st_node* front_node, const int data);
+int delete_node(st_node** front_node);
+int check_linked_list(void);
+
+#endif
