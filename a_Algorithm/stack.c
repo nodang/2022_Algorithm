@@ -4,11 +4,12 @@
 
 int pop(st_node** p_top_node)
 {
+	int return_pop = (*p_top_node)->p_next->data;
 	int err = delete_node(&p_top_node);
 	if (err == -1)
 		return -1;
 
-	return 0;
+	return return_pop;
 }
 
 int push(st_node* top_node, int data)
@@ -39,6 +40,7 @@ int check_stack(void)
 {
 	st_node* top = init_node();
 	int err = 0;
+	int val = 0;
 
 	for (int i = 0; i <= 10; i++)
 	{
@@ -54,9 +56,11 @@ int check_stack(void)
 
 	for (int i = 0; i <= 10; i++)
 	{
-		err = pop(&top);
-		if (err == -1)
+		val = pop(&top);
+		if (val == -1)
 			return 0;
+		else
+			printf("pop return value : %d\n", val);
 	}
 
 	err = _print_stack(top);
