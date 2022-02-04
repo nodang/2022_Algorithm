@@ -2,72 +2,149 @@
 
 #include "linked_list.h"
 
-int pop(st_node** p_top_node)
-{
-	int return_pop = (*p_top_node)->p_next->data;
-	int err = delete_node(&p_top_node);
-	if (err == -1)
-		return -1;
+#define PRINT_ERR_EMPTY(FUNC)		printf("Err[%s] : stack is empty or memory error\n", FUNC);
 
-	return return_pop;
+static int _print_err_stack(const st_node* p_ceiling_node, const char* func_name)
+{
+	if (p_ceiling_node == NULL)
+	{
+		PRINT_ERR_ADDRESS(func_name, "node");
+		return -1;
+	}
+	int empty_return = empty(p_ceiling_node);
+	if (empty_return != 0)
+	{
+		PRINT_ERR_EMPTY(func_name);
+		return -1;
+	}
+
+	return 0;
 }
 
-int push(st_node* top_node, const int data)
+int empty(const st_node* p_ceiling_node)
 {
-	int err = add_node(top_node, data);
+	if (p_ceiling_node == NULL)
+	{
+		PRINT_ERR_ADDRESS("empty in the stack", "node");
+		return -1;
+	}
+
+	return (p_ceiling_node->p_next == NULL);
+}
+
+int pop(st_node** pp_ceiling_node)
+{
+	if (pp_ceiling_node == NULL || *pp_ceiling_node == NULL)
+	{
+		PRINT_ERR_ADDRESS("pop in the stack", "node");
+		return -1;
+	}
+
+	int pop_return = (*pp_ceiling_node)->p_next->data;
+	int err = delete_node(&pp_ceiling_node);
 	if (err == -1)
 		return -1;
 
 	return 0;
 }
 
-static int _print_stack(st_node* top_node)
+int push(st_node* p_ceiling_node, const int data)
 {
-	printf("|     top    |\n");
+	int err = add_node(p_ceiling_node, data);
+	if (err == -1)
+		return -1;
+	else
+		return 0;
+}
 
-	st_node* curr = top_node->p_next;
-	while (curr != NULL)
+int size(const st_node* p_ceiling_node)
+{
+	int len = 0;
+	int err = _print_err_stack(p_ceiling_node, "size in stack");
+	if (err == -1)
+		return -1;
+
+	st_node* p_curr = p_ceiling_node;
+	while (p_curr->p_next != NULL)
 	{
-		printf("|    %4d    |\n", curr->data);
-		curr = curr->p_next;
+		len++;
+		p_curr = p_curr->p_next;
 	}
+	printf("stack size is %d\n", len);
 
-	printf("|_____bot____|\n");
+	return 0;
+}
+
+int top(const st_node* p_ceiling_node)
+{
+	int err = _print_err_stack(p_ceiling_node, "top in stack");
+	if (err == -1)
+		return -1;
+
+	printf("The top integer : %d\n", p_ceiling_node->p_next->data);
+
+	return 0;
+}
+
+static int _print_stack(const st_node* p_ceiling_node)
+{
+	printf("|   ceiling  |\n");
+	st_node* p_curr = p_ceiling_node->p_next;
+	while (p_curr != NULL)
+	{
+		printf("|    %-4d    |\n", p_curr->data);
+		p_curr = p_curr->p_next;
+	}
+	printf("|___bottom___|\n");
+	return 0;
+}
+
+static int _print_empty(const st_node* p_ceiling_node)
+{
+	int bool_empty = empty(p_ceiling_node);
+	if (bool_empty == -1)
+		return -1;
+	else if (bool_empty == 1)
+		printf("stack is empty\n");
+	else
+		printf("stack is not empty\n");
+
 	return 0;
 }
 
 int check_stack(void)
 {
-	st_node* top = init_node();
+	st_node* p_ceiling = init_node();
 	int err = 0;
-	int val = 0;
 
-	for (int i = 0; i <= 10; i++)
+	for (int i = 1; i <= 10; i++)
 	{
-		err = push(top, i);
+		err = push(p_ceiling, i);
 		if (err == -1)
 			return 0;
 	}
 
-	err = _print_stack(top);
+	err = _print_stack(p_ceiling);
+	err |= _print_empty(p_ceiling);
+	err |= size(p_ceiling);
 	if (err == -1)
 		return 0;
-
-
-	for (int i = 0; i <= 10; i++)
+	
+	for (int i = 1; i <= 10; i++)
 	{
-		val = pop(&top);
-		if (val == -1)
+		err = top(p_ceiling);
+		err |= pop(&p_ceiling);
+		if (err == -1)
 			return 0;
-		else
-			printf("pop return value : %d\n", val);
 	}
 
-	err = _print_stack(top);
+	err = _print_stack(p_ceiling);
+	err |= _print_empty(p_ceiling);
+	err |= size(p_ceiling);
 	if (err == -1)
 		return 0;
 
-	err = exit_node(top);
+	err = exit_node(&p_ceiling);
 	if (err == -1)
 		return 0;
 
