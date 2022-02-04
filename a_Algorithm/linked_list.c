@@ -4,9 +4,6 @@
 
 #include "linked_list.h"
 
-#define PRINT_ERR_ADDRESS(FUNC, NAME)		printf("Err[%s] : %s's address is NULL\n", FUNC, NAME)
-#define PRINT_ERR_MEMORY(NAME)				printf("Err[%s] : Memory isn't enough\n", NAME)
-
 st_node* init_node(void)
 {
 	st_node* node = calloc(1, sizeof(st_node));
@@ -18,77 +15,80 @@ st_node* init_node(void)
 	return node;
 }
 
-int exit_node(st_node** rm_node)
+int exit_node(st_node** pp_rm_node)
 {
-	if(rm_node == NULL || *rm_node == NULL)
+	if (pp_rm_node == NULL || *pp_rm_node == NULL)
+	{
+		PRINT_ERR_ADDRESS("exit_node", "rm_node");
 		return -1;
+	}
 
-	free(*rm_node);
-	*rm_node = NULL;
+	free(*pp_rm_node);
+	*pp_rm_node = NULL;
 
 	return 0;
 }
 
-int add_node(st_node* front_node, const int data)
+int add_node(st_node* p_front_node, const int data)
 {
-	if (front_node == NULL)
+	if (p_front_node == NULL)
 	{
-		PRINT_ERR_ADDRESS("add_node", "front node");
+		PRINT_ERR_ADDRESS("add_node", "front_node");
 		return -1;
 	}
-	st_node* node = init_node();
-	if (node == NULL)
+	st_node* p_node = init_node();
+	if (p_node == NULL)
 		return -1;
 
-	node->data = data;
+	p_node->data = data;
 
-	if (front_node->p_next == NULL)
+	if (p_front_node->p_next == NULL)
 	{
-		node->p_next = NULL;
-		front_node->p_next = node;
+		p_node->p_next = NULL;
+		p_front_node->p_next = p_node;
 	}
 	else
 	{
-		node->p_next = front_node->p_next;
-		front_node->p_next = node;
+		p_node->p_next = p_front_node->p_next;
+		p_front_node->p_next = p_node;
 	}
 
 	return 0;
 }
 
-int delete_node(st_node** front_node)
+int delete_node(st_node** pp_front_node)
 {
-	if (*front_node == NULL || (*front_node)->p_next == NULL)
+	if (*pp_front_node == NULL || (*pp_front_node)->p_next == NULL)
 	{
 		PRINT_ERR_ADDRESS("exit_node", "front_node");
 		return -1;
 	}
 
-	st_node* rm_node = (*front_node)->p_next;
+	st_node* p_rm_node = (*pp_front_node)->p_next;
 
-	(*front_node)->p_next = rm_node->p_next;
-	rm_node->p_next = NULL;
+	(*pp_front_node)->p_next = p_rm_node->p_next;
+	p_rm_node->p_next = NULL;
 
-	int err = exit_node(&rm_node);
+	int err = exit_node(&p_rm_node);
 	if (err == -1)
 		return -1;
 
 	return 0;
 }
 
-static int _print_node(st_node* head_node)
+static int _print_node(const st_node* p_head_node)
 {
-	if (head_node == NULL)
+	if (p_head_node == NULL)
 	{
 		PRINT_ERR_ADDRESS("printf_node", "head node");
 		return -1;
 	}
 
-	st_node* curr = head_node;
-	while (curr != NULL)
+	st_node* p_curr = p_head_node;
+	while (p_curr != NULL)
 	{
-		printf("add_ress : %p	data : %10d		next : %p\n", curr, curr->data, curr->p_next);
-		curr = curr->p_next;
+		printf("add_ress : %p	data : %10d		next : %p\n", p_curr, p_curr->data, p_curr->p_next);
+		p_curr = p_curr->p_next;
 	}
 	printf("\n");
 
