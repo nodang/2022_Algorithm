@@ -12,7 +12,7 @@ int pop(st_node** p_top_node)
 	return return_pop;
 }
 
-int push(st_node* top_node, int data)
+int push(st_node* top_node, const int data)
 {
 	int err = add_node(top_node, data);
 	if (err == -1)
