@@ -1,8 +1,8 @@
-#include <memory.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "linked_list.h"
+#include "print_err.h"
 
 st_node* init_node(void)
 {
