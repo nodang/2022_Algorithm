@@ -6,6 +6,7 @@ int main(void)
 {
 	//check_linked_list();
 	check_stack();
+	check_queue();
 
 	return 0;
 }
