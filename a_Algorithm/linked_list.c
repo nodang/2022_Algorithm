@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "linked_list.h"
-#include "print_err.h"
 
 st_node* init_node(void)
 {
@@ -117,7 +113,7 @@ int check_linked_list(void)
 	if (err == -1)
 		return 0;
 
-	for (int i = 1; i <= 10; i++)
+	for (int i = 1; i <= 5; i++)
 	{
 		err = delete_node(&p_head);
 		if (err == -1)
