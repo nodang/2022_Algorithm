@@ -47,8 +47,8 @@ int main(void) {
 		cin >> num;
 		if (num == 0)
 			break;
-		int out;
-		for (int a = 0; a <= num; a++) {
+		int out = 0;
+		for (int a = 0; a <= num; a++) {		//a과 num-a 인덱스만 search하는게 중요!
 			if(d[a] != 0 && d[num - a] != 0) {
 				if (num == d[a] + d[num - a]) {
 					cout << num << " = " << d[a] << " + " << d[num - a] << '\n';
