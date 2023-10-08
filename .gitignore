@@ -2,6 +2,7 @@
 .vs/
 Debug/
 22 동계 대학생 SW 알고리즘/
+23 하계 대학생 SW 알고리즘/
 maze_algorithm/
 
 z_algorithm_feedback/
@@ -11,3 +12,5 @@ z_algorithm_feedback/
 *.vcxproj.*
 
 github-recovery-codes.txt
+
+scpc/
